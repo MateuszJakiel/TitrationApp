@@ -1,0 +1,126 @@
+#:import MDFillRoundFlatButton kivymd.uix.button.MDFillRoundFlatButton
+#:import ScreenManager,Screen kivy.uix.screenmanager
+#:import MDTextField kivymd.uix.textfield.MDTextField
+#import md_icons kivymd.icon_definitions
+#:import OneLineIconListItem kivymd.uix.list.OneLineIconListItem
+#:import images_path kivymd.images_path
+
+
+WindowManager:
+    id:win_man
+    MainWindow:
+    WindowV:
+    WindowX:
+
+<MainWindow>:
+    name : "main"
+    result: _result
+
+    id: R
+    id: s
+    FloatLayout:
+        padding: 150
+        orientation: 'vertical'
+        MDTextField:
+            input_filter: 'float'
+            hint_text: "Proszę wpisać gramorównoważnik (w 0.00g)"
+            id: R
+            pos_hint: {"x":.1, "top":.9}
+
+
+        MDTextField:
+            input_filter: 'float'
+            hint_text: "Proszę wpisać miano (s)"
+            id: s
+            pos_hint: {"x":.1, "top":.7}
+
+
+        MDFillRoundFlatButton:
+            text: "Po wpisaniu R i s, kliknij w to!"
+            id:_result
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            on_release:
+                _result.text = str(float(R.text) * float(s.text))
+                root.test()
+
+
+
+        MDFillRoundFlatButton:
+            text: 'Oblicz teoretyczną objętość titrantu'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+            md_bg_color: app.theme_cls.primary_dark
+            on_release:
+                app.root.current = "V"
+        MDFillRoundFlatButton:
+            text: 'Oblicz zawartość procentową substancji badanej'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+            md_bg_color: app.theme_cls.primary_dark
+            on_release:
+                app.root.current = "X"
+
+
+
+<WindowV>:
+
+    name: "V"
+    id: V
+    FloatLayout:
+        padding: 250
+        orientation: 'vertical'
+        MDTextField:
+            input_filter: 'float'
+            id: m
+            hint_text: ("Proszę podać masę odważanej próbki (0.00g")
+            pos_hint: {"x":0., "top":.5}
+
+
+        MDFillRoundFlatButton:
+            id: gowno
+            text: "Policz"
+
+            pos_hint: {"x":0.5, "top":.3}
+            on_release:
+                gowno.text = str(root.change_place())
+
+        MDIconButton:
+            icon: 'keyboard-return'
+            on_release: app.root.current = "main"
+
+
+
+
+
+
+
+
+
+
+<WindowX>:
+    name: "X"
+    id: X
+    FloatLayout:
+        padding: 10
+        orientation: 'vertical'
+        MDTextField:
+            id: m2
+            input_filter: 'float'
+            hint_text: "Proszę podać masę odważanej próbki (0.00g)"
+            pos_hint: {'x':0., 'y': 0.6}
+
+
+        MDTextField:
+            id: V
+            input_filter: 'float'
+            hint_text: "Proszę podać objętość zużytego titrantu (0.0ml)"
+            pos_hint: {'x':0., 'y': 0.4}
+        MDFillRoundFlatButton:
+            id: gowno
+            text: "Policz"
+
+            pos_hint: {"x":0.5, "top":.3}
+            on_release:
+                gowno.text = str(root.change_place2())
+
+        MDIconButton:
+            icon: 'keyboard-return'
+            on_release: app.root.current = "main"
